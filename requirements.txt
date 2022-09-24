@@ -1,0 +1,5 @@
+google-cloud-service-usage
+Jinja2
+google-cloud-resource-manager
+gunicorn==20.1.0
+flask

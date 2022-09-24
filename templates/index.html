@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>GCP Project Service Data</title>
+    <link href="/main.css" rel="stylesheet" media="all" type="text/css" />
+</head>
+
+<body>
+    <div class="header">
+        <h1>This has not been approved for production use... proceed with caution.</h1>
+    </div>
+
+    {% if error %}
+    <p class=error><strong>Error:</strong> {{ error }}
+        {% endif %}
+
+    <div class="instructions">
+        <p>To view a GCP project's current API service/endpoint configuration enter the project ID below.</p>
+    </div>
+
+    <form method="POST">
+        <div class="search-wrap">
+            <div class="search">
+                <input type="text" class="searchTerm" placeholder="GCP Project ID Lookup" required
+                    oninvalid="this.setCustomValidity('Please enter valid project ID')" oninput="setCustomValidity('')"
+                    name="projectId">
+                <button type="submit" class="searchButton">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <label class="filter">Enabled APIs Only
+            <input type="radio" name="filter" value="state:ENABLED" checked>
+        </label>
+        <label class="filter">Disabled APIs Only
+            <input type="radio" name="filter" value="state:DISABLED">
+        </label>
+        <label class="filter">All APIs
+            <input type="radio" name="filter" value="">
+        </label>
+    </form>
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>

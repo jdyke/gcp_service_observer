@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>GCP Project Service Data</title>
+    <link href="/table.css" rel="stylesheet" media="all" type="text/css" />
+
+    <script type="text/javascript" src="/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#api_table td.status:contains('DISABLED')").css('background-color', '#fcc');
+            $("#api_table td.status:contains('ENABLED')").css('background-color', '#00A300');
+        });
+    </script>
+
+    <script src="/sorttable.js"></script>
+    <script>
+        function columnSearch() {
+            // Declare variables 
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("column-search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("api_table");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+    {%extends "index.html" %}
+    {%block content%}
+
+    <input type="text" id="column-search" onkeyup="columnSearch()" placeholder="Filter">
+
+    <table id="api_table" class="sortable" border="1">
+        <thead>
+            <tr class="table-header">
+                {% for col in colnames %}
+                <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for project_api in project_info %}
+            <tr>
+                <td class="title">{{ project_api.Title }}</td>
+                <td class="name">{{ project_api.Name }}</td>
+                <td class="status">{{ project_api.Status }}</td>
+                <td class="documentation">
+                    <a href={{ project_api.Documentation }}>
+                        Link
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endblock %}
+</body>
+
+</html>
